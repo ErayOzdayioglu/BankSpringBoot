@@ -2,6 +2,7 @@ package com.example.SimpleBank.Controller;
 
 import com.example.SimpleBank.Dto.CreateCustomerRequest;
 import com.example.SimpleBank.Dto.CustomerDto;
+import com.example.SimpleBank.Dto.UpdateCustomerRequest;
 import com.example.SimpleBank.Service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,17 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDto> getCustomerById(@PathVariable Integer id) {
         return ResponseEntity.ok(customerService.getCustomerById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomerById(@PathVariable Integer id) {
+        customerService.deleteCustomerById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerDto> updateCustomerById(@PathVariable Integer id,
+                                                          @RequestBody UpdateCustomerRequest updateCustomerRequest) {
+        return ResponseEntity.ok(customerService.updateCustomerById(id,updateCustomerRequest));
     }
 }

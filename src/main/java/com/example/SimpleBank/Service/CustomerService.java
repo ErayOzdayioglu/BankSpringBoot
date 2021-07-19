@@ -3,6 +3,8 @@ package com.example.SimpleBank.Service;
 import com.example.SimpleBank.Dto.CreateCustomerRequest;
 import com.example.SimpleBank.Dto.CustomerDto;
 import com.example.SimpleBank.Dto.CustomerDtoConverter;
+import com.example.SimpleBank.Dto.UpdateCustomerRequest;
+import com.example.SimpleBank.Exception.CustomerNotFoundException;
 import com.example.SimpleBank.Model.Customer;
 import com.example.SimpleBank.Repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -54,5 +56,22 @@ public class CustomerService {
         Optional<Customer> customer = customerRepository.findById(id);
 
         return customer.map(customerDtoConverter::convert).orElse(new CustomerDto());
+    }
+
+    public void deleteCustomerById(Integer id) {
+        customerRepository.deleteById(id);
+    }
+
+    public CustomerDto updateCustomerById(Integer id, UpdateCustomerRequest updateCustomerRequest) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
+
+        if (!updateCustomerRequest.getName().equals("")) customer.setName(updateCustomerRequest.getName());
+        if (!updateCustomerRequest.getSurname().equals("")) customer.setSurname(updateCustomerRequest.getSurname());
+        if (!updateCustomerRequest.getCity().equals("")) customer.setCity(updateCustomerRequest.getCity());
+        if (updateCustomerRequest.getDateOfBirth() != null) customer.setDateOfBirth(updateCustomerRequest.getDateOfBirth());
+
+        return customerDtoConverter.convert(customerRepository.save(customer));
+
+
     }
 }
