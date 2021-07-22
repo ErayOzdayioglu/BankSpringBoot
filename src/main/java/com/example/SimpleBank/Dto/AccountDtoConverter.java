@@ -8,7 +8,7 @@ public class AccountDtoConverter {
 
     public AccountDto convert(Account account) {
         AccountDto accountDto = new AccountDto();
-        accountDto.setId( accountDto.getId());
+        accountDto.setId( account.getId());
         accountDto.setBalance(account.getBalance());
         accountDto.setCreationDate(account.getCreationDate());
         accountDto.setCustomerId(account.getCustomerId());

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddMoneyRequest {
+public class MoneyRequest {
     private Integer accountId;
     private BigDecimal amount;
 }

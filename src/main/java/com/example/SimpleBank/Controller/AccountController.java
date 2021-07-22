@@ -27,7 +27,7 @@ public class AccountController {
     }
 
     @PutMapping("/add")
-    public ResponseEntity<Void> addMoney(@RequestBody AddMoneyRequest request) {
+    public ResponseEntity<Void> addMoney(@RequestBody MoneyRequest request) {
          accountService.addMoney(request);
          return ResponseEntity.ok().build();
     }

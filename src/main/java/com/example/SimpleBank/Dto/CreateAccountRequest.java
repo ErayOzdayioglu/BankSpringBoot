@@ -16,7 +16,5 @@ public class CreateAccountRequest {
 
     private Integer id;
 
-    private String customerId;
-    private BigDecimal balance;
-    private LocalDateTime creationDate;
+    private Integer customerId;
 }

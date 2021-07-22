@@ -2,9 +2,10 @@ package com.example.SimpleBank.Service;
 
 import com.example.SimpleBank.Dto.AccountDto;
 import com.example.SimpleBank.Dto.AccountDtoConverter;
-import com.example.SimpleBank.Dto.AddMoneyRequest;
+import com.example.SimpleBank.Dto.MoneyRequest;
 import com.example.SimpleBank.Dto.CreateAccountRequest;
 import com.example.SimpleBank.Exception.AccountNotFoundException;
+import com.example.SimpleBank.Exception.InsufficientBalanceException;
 import com.example.SimpleBank.Model.Account;
 import com.example.SimpleBank.Repository.AccountRepository;
 import com.example.SimpleBank.Repository.CustomerRepository;
@@ -36,14 +37,29 @@ public class AccountService {
         return accountDtoConverter.convert(account);
     }
 
-    public void addMoney(AddMoneyRequest request) {
-        Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+    public void addMoney(MoneyRequest request) {
+        Account account = accountRepository.findById(request.getAccountId()).
+                orElseThrow(() -> new AccountNotFoundException("Account not found"));
 
         if (request.getAmount().compareTo(BigDecimal.ZERO) > 0) {
             account.setBalance(account.getBalance().add(request.getAmount()));
+            accountRepository.save(account);
         }
 
         // TODO amount is < 0 exception
+    }
+
+    public void withdrawMoney(MoneyRequest request) {
+        Account account = accountRepository.findById(request.getAccountId()).
+                orElseThrow(() -> new AccountNotFoundException("Account not found"));
+
+        if (request.getAmount().compareTo(account.getBalance()) > 0) {
+            throw new InsufficientBalanceException("You have not enough balance");
+        }
+        else {
+            account.setBalance(account.getBalance().subtract(request.getAmount()));
+            accountRepository.save(account);
+        }
     }
 
 

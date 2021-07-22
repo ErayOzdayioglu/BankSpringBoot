@@ -19,7 +19,7 @@ public class Account {
     @Id
     private Integer id;
 
-    private String customerId;
+    private Integer customerId;
     private BigDecimal balance;
     private LocalDateTime creationDate;
 

@@ -17,7 +17,7 @@ public class SimpleBankApplication {
 	}
 
 	@Bean
-	public Docket productApi() {
+	public Docket BankApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.example.SimpleBank")).build();
 	}
